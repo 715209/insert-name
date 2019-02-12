@@ -1,0 +1,35 @@
+{
+    "name": "noalbs-websocket",
+    "version": "0.0.1",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "npm run serve",
+        "build": "tsc",
+        "serve": "node -r dotenv/config lib/server.js",
+        "watch-node": "nodemon -r dotenv/config lib/server.js",
+        "watch-ts": "tsc -w",
+        "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/715209/insert-name.git"
+    },
+    "author": "Brian Spit",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/715209/insert-name/issues"
+    },
+    "homepage": "https://github.com/715209/insert-name#readme",
+    "dependencies": {
+        "dotenv": "^6.2.0",
+        "socket.io": "^2.2.0"
+    },
+    "devDependencies": {
+        "@types/dotenv": "^6.1.0",
+        "@types/node": "^10.12.24",
+        "@types/socket.io": "^2.1.2",
+        "concurrently": "^4.1.0",
+        "nodemon": "^1.18.10"
+    }
+}
