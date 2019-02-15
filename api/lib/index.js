@@ -1,18 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var debug = require("debug");
-var http = require("http");
-var server_1 = require("./server");
+const debug = require("debug");
+const http = require("http");
+const server_1 = require("./server");
 debug("ts-express:server");
-var port = normalizePort(process.env.PORT || 3001);
+const port = normalizePort(process.env.PORT || 3001);
 server_1.default.set("port", port);
-console.log("Server listening on port " + port);
-var server = http.createServer(server_1.default);
+console.log(`Server listening on port ${port}`);
+const server = http.createServer(server_1.default);
 server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);
 function normalizePort(val) {
-    var port = typeof val === "string" ? parseInt(val, 10) : val;
+    const port = typeof val === "string" ? parseInt(val, 10) : val;
     if (isNaN(port)) {
         return val;
     }
@@ -27,14 +27,14 @@ function onError(error) {
     if (error.syscall !== "listen") {
         throw error;
     }
-    var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+    const bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
     switch (error.code) {
         case "EACCES":
-            console.error(bind + " requires elevated privileges");
+            console.error(`${bind} requires elevated privileges`);
             process.exit(1);
             break;
         case "EADDRINUSE":
-            console.error(bind + " is already in use");
+            console.error(`${bind} is already in use`);
             process.exit(1);
             break;
         default:
@@ -42,8 +42,8 @@ function onError(error) {
     }
 }
 function onListening() {
-    var addr = server.address();
-    var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-    debug("Listening on " + bind);
+    const addr = server.address();
+    const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
+    debug(`Listening on ${bind}`);
 }
 //# sourceMappingURL=index.js.map

@@ -1,6 +1,6 @@
 {
-    "name": "project-80093059-api",
-    "version": "1.0.0",
+    "name": "noalbs-api",
+    "version": "0.0.1",
     "description": "",
     "main": "app.js",
     "scripts": {
@@ -16,13 +16,15 @@
     "dependencies": {
         "body-parser": "^1.18.3",
         "compression": "^1.7.3",
+        "connect-mongo": "^2.0.3",
         "cors": "^2.8.4",
         "dotenv": "^6.2.0",
         "express": "^4.16.3",
         "express-session": "^1.15.6",
         "helmet": "^3.13.0",
-        "mongoose": "^5.2.9",
+        "mongoose": "^5.4.11",
         "morgan": "^1.9.1",
+        "node-fetch": "^2.3.0",
         "uid-safe": "^2.1.5"
     },
     "devDependencies": {
@@ -31,6 +33,7 @@
         "@types/express-session": "^1.15.11",
         "@types/mongoose": "^5.2.6",
         "@types/node": "^10.9.1",
+        "@types/node-fetch": "^2.1.6",
         "@types/uid-safe": "^2.1.2",
         "concurrently": "^4.1.0",
         "nodemon": "^1.18.3",

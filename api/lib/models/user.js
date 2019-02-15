@@ -1,50 +1,50 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var mongoose_1 = require("mongoose");
-var userSchema = new mongoose_1.Schema({
-    username: {
-        type: String,
-        default: "",
-        required: true,
-        unique: true,
-        lowercase: true
+const mongoose_1 = require("mongoose");
+let userSchema = new mongoose_1.Schema({
+    twitch: {
+        id: { type: String, default: "" },
+        login: { type: String, default: "" },
+        email: { type: String, default: "" },
+        profile_image_url: { type: String, default: "" }
     },
-    password: {
-        type: String,
-        default: "",
-        required: true,
-        select: false
-    },
-    email: {
-        type: String,
-        default: "",
-        unique: true,
-        required: true,
-        select: false
-    },
-    streamKey: {
-        type: String,
-        default: "",
-        required: true,
-        unique: true,
+    twitchOauth: {
+        type: {
+            access_token: String,
+            refresh_token: String,
+            scope: String,
+            token_type: String,
+            lastUsed: { type: Date, default: Date.now }
+        },
         select: false
     },
     admin: {
         type: Boolean,
         default: false
     },
-    channel: {
-        required: false,
-        live: {
-            type: Boolean,
-            required: true,
-            default: false
-        },
-        title: {
-            type: String,
-            required: true,
-            default: "edfjdiojf"
-        }
+    obs: {
+        ip: { type: String, default: "" },
+        password: { type: String, default: "" },
+        normalScene: { type: String, default: "" },
+        offlineScene: { type: String, default: "" },
+        lowBitrateScene: { type: String, default: "" },
+        refreshScene: { type: String, default: "" },
+        lowBitrateTrigger: { type: Number, default: 1000 },
+        refreshSceneInterval: { type: Number, default: 2000 },
+        requestMs: { type: Number, default: 2000 }
+    },
+    nginx: {
+        ip: String
+    },
+    twitchChat: {
+        enable: { type: Boolean, default: false },
+        prefix: { type: String, default: "!" },
+        enablePublicCommands: { type: Boolean, default: false },
+        publicCommands: { type: Array, default: ["bitrate"] },
+        enableModCommands: { type: Boolean, default: false },
+        modCommands: { type: Array, default: ["refresh", "trigger", "sourceinfo", "obsinfo"] },
+        enableAutoSwitchNotification: { type: Boolean, default: false },
+        enableAutoStopStreamOnHostOrRaid: { type: Boolean, default: true }
     }
 }, { timestamps: true });
 exports.default = mongoose_1.model("User", userSchema);

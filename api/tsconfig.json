@@ -2,7 +2,7 @@
     "compilerOptions": {
         "outDir": "./lib/",
         "module": "commonjs",
-        "target": "es5",
+        "target": "es2017",
         "sourceMap": true
     },
     "include": ["./src"],

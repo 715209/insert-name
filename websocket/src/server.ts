@@ -8,6 +8,7 @@ export const socket: socketIo.Server = socketIo();
 socket.on("connection", handleSocket);
 
 function handleSocket(client: any) {
+    console.log(client);
     // client.on("test", functionhere);
 }
 

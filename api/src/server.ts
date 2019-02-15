@@ -6,6 +6,7 @@ import * as helmet from "helmet";
 import * as compression from "compression";
 import * as cors from "cors";
 import * as session from "express-session";
+import * as connectMongo from "connect-mongo";
 
 // Import routers
 import userRouter from "./routers/userRouter";
@@ -23,6 +24,7 @@ class Server {
 
     public config() {
         const MONGO_URI = "mongodb://localhost/noalbs";
+        const MongoStore = connectMongo(session);
 
         mongoose.connect(MONGO_URI || process.env.MONGODB_URI, {
             useNewUrlParser: true,
@@ -67,7 +69,7 @@ class Server {
         this.app.use(cors({ origin: process.env.DOMAIN, credentials: true }));
         this.app.use(
             session({
-                // store: TODO
+                store: new MongoStore({ mongooseConnection: mongoose.connection }),
                 name: "sid",
                 secret: process.env.SESSION_SECRET,
                 resave: false,
@@ -85,6 +87,12 @@ class Server {
         let router: express.Router;
 
         router = express.Router();
+
+        router.get("/", (req, res) => {
+            res.json({
+                Error: "Nothing here 4Head"
+            });
+        });
 
         this.app.use("/", router);
         this.app.use("/v1/users", userRouter);

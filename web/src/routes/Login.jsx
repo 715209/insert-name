@@ -1,36 +1,29 @@
 import React, { PureComponent } from "react";
+import styled from "styled-components";
 
-// TODO: form validation and CSS
+const LoginStyle = styled.div`
+    display: grid;
+    height:100%
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+
+    h1 {
+      font-size: 7em;
+    }
+`;
+
 class Login extends PureComponent {
-  render() {
-    return (
-      <div>
-        <h1>Login</h1>
-
-        <form onSubmit={this.props.onLogin} autoComplete="off">
-          <label>
-            Username:
-            <input
-              name="username"
-              type="text"
-              value={this.props.username}
-              onChange={this.props.onChange}
-            />
-          </label>
-          <label>
-            Password:
-            <input
-              name="password"
-              type="password"
-              value={this.props.password}
-              onChange={this.props.onChange}
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <LoginStyle>
+                <h1>NOALBS</h1>
+                <h2>
+                    <a href="http://localhost:3001/v1/auth/twitch">Login with Twitch</a>
+                </h2>
+            </LoginStyle>
+        );
+    }
 }
 
 export default Login;

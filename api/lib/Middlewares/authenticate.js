@@ -1,21 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var user_1 = require("../models/user");
-exports.default = (function (req, res, next) {
+const user_1 = require("../models/user");
+exports.default = (req, res, next) => {
     if (!req.session.userId) {
         res.status(401).json({ errors: "Invalid token" });
     }
     else {
         user_1.default.findById(req.session.userId)
-            .select("admin username")
-            .then(function (data) {
+            .select("admin twitch.id")
+            .then((data) => {
             res.locals.isAdmin = data.admin;
-            res.locals.username = data.username;
+            // let's use twitch id for now
+            res.locals.twitchId = data.twitch.id;
             next();
         })
-            .catch(function (err) {
+            .catch(err => {
             console.log("How did we get here", err);
         });
     }
-});
+};
 //# sourceMappingURL=authenticate.js.map

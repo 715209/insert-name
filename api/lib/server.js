@@ -1,50 +1,52 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express = require("express");
-var mongoose = require("mongoose");
-var bodyParser = require("body-parser");
-var logger = require("morgan");
-var helmet = require("helmet");
-var compression = require("compression");
-var cors = require("cors");
-var session = require("express-session");
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const logger = require("morgan");
+const helmet = require("helmet");
+const compression = require("compression");
+const cors = require("cors");
+const session = require("express-session");
+const connectMongo = require("connect-mongo");
 // Import routers
-var userRouter_1 = require("./routers/userRouter");
-var authRouter_1 = require("./routers/authRouter");
+const userRouter_1 = require("./routers/userRouter");
+const authRouter_1 = require("./routers/authRouter");
 // Server class
-var Server = /** @class */ (function () {
-    function Server() {
+class Server {
+    constructor() {
         this.app = express();
         this.config();
         this.routes();
     }
-    Server.prototype.config = function () {
-        var MONGO_URI = "mongodb://localhost/noalbs";
+    config() {
+        const MONGO_URI = "mongodb://localhost/noalbs";
+        const MongoStore = connectMongo(session);
         mongoose.connect(MONGO_URI || process.env.MONGODB_URI, {
             useNewUrlParser: true,
             autoReconnect: true,
             reconnectTries: 200,
             reconnectInterval: 2000
         });
-        mongoose.connection.on("error", function (e) {
-            console.log("Mongodb error " + e);
+        mongoose.connection.on("error", e => {
+            console.log(`Mongodb error ${e}`);
         });
-        mongoose.connection.on("connected", function (e) {
+        mongoose.connection.on("connected", e => {
             console.log("Mongodb connected");
         });
-        mongoose.connection.on("disconnecting", function () {
+        mongoose.connection.on("disconnecting", () => {
             console.log("Mongodb disconnecting");
         });
-        mongoose.connection.on("disconnected", function () {
+        mongoose.connection.on("disconnected", () => {
             console.log("Mongodb disconnected");
         });
-        mongoose.connection.on("reconnected", function () {
+        mongoose.connection.on("reconnected", () => {
             console.log("Mongodb reconnected");
         });
-        mongoose.connection.on("timeout", function (e) {
-            console.log("Mongodb timeout " + e);
+        mongoose.connection.on("timeout", e => {
+            console.log(`Mongodb timeout ${e}`);
         });
-        mongoose.connection.on("close", function () {
+        mongoose.connection.on("close", () => {
             console.log("Mongodb connection closed");
         });
         this.app.use(bodyParser.urlencoded({ extended: true }));
@@ -54,7 +56,7 @@ var Server = /** @class */ (function () {
         this.app.use(compression());
         this.app.use(cors({ origin: process.env.DOMAIN, credentials: true }));
         this.app.use(session({
-            // store: TODO
+            store: new MongoStore({ mongooseConnection: mongoose.connection }),
             name: "sid",
             secret: process.env.SESSION_SECRET,
             resave: false,
@@ -65,15 +67,19 @@ var Server = /** @class */ (function () {
                 httpOnly: true
             }
         }));
-    };
-    Server.prototype.routes = function () {
-        var router;
+    }
+    routes() {
+        let router;
         router = express.Router();
+        router.get("/", (req, res) => {
+            res.json({
+                Error: "Nothing here 4Head"
+            });
+        });
         this.app.use("/", router);
         this.app.use("/v1/users", userRouter_1.default);
         this.app.use("/v1/auth", authRouter_1.default);
-    };
-    return Server;
-}());
+    }
+}
 exports.default = new Server().app;
 //# sourceMappingURL=server.js.map
