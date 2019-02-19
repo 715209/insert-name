@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 
 import Dashboard from "./Dashboard";
 import Login from "./Login";
+import Settings from "./settings";
 
 class App extends Component {
     state = {
@@ -76,7 +77,7 @@ class App extends Component {
         return (
             <Router>
                 <React.Fragment>
-                    {/* <Navbar onLogout={this.handleLogout} {...this.state} /> */}
+                    {this.state.isAuthenticated && <Navbar onLogout={this.handleLogout} {...this.state} />}
 
                     <Switch>
                         <Route exact path="/" render={props => (this.state.isAuthenticated ? <Redirect to="/dashboard" /> : <Login />)} />
@@ -85,6 +86,7 @@ class App extends Component {
                             path="/dashboard"
                             render={props => (this.state.isAuthenticated ? <Dashboard {...this.state} {...props} /> : <Redirect to="/" />)}
                         />
+                        <Route exact path="/settings" render={props => (this.state.isAuthenticated ? <Settings /> : <Redirect to="/" />)} />
                     </Switch>
                 </React.Fragment>
             </Router>
